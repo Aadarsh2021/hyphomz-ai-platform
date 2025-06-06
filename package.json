@@ -10,7 +10,11 @@
     "backend:dev": "cd backend && python main.py",
     "backend:install": "cd backend && pip install -r requirements.txt",
     "dev:full": "concurrently \"npm run dev\" \"npm run backend:dev\"",
-    "setup": "npm install && npm run backend:install"
+    "setup": "npm install && npm run backend:install",
+    "build:production": "npm run build && npm run backend:install",
+    "start:production": "./start-production.sh",
+    "docker:build": "docker build -t hyphomz-ai-platform .",
+    "docker:run": "docker run -p 3000:3000 -p 8000:8000 hyphomz-ai-platform"
   },
   "dependencies": {
     "framer-motion": "^11.0.3",
