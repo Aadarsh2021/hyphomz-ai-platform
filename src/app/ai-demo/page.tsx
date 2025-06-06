@@ -136,7 +136,7 @@ export default function AIDemoPage() {
       const interval = setInterval(() => {
         setNeurons(prev => prev.map((layer, idx) => ({
           ...layer,
-          active: idx === (Date.now() / 500) % prev.length | 0
+          active: idx === ((Date.now() / 500) % prev.length | 0)
         })));
       }, 500);
       return () => clearInterval(interval);

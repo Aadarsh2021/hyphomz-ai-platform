@@ -70,7 +70,7 @@ export default function AIAnalyticsDashboard() {
                 {['24h', '7d', '30d'].map((range) => (
                   <Button
                     key={range}
-                    variant={selectedTimeRange === range ? 'default' : 'outline'}
+                    variant={selectedTimeRange === range ? 'secondary' : 'outline'}
                     size="sm"
                     onClick={() => setSelectedTimeRange(range)}
                   >

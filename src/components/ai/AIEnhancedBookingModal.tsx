@@ -120,7 +120,7 @@ export default function AIEnhancedBookingModal({
   if (!service) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="4xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <div className="p-6">
         {/* Header with AI Badge */}
         <div className="flex items-center justify-between mb-6">
