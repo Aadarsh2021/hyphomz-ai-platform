@@ -1,15 +1,13 @@
-# Multi-stage Dockerfile for Hyphomz AI Platform
-# Builds both Next.js frontend and FastAPI backend
+# Simplified Dockerfile for Railway deployment
+FROM node:18-alpine AS frontend
 
-# Stage 1: Build Frontend
-FROM node:18-alpine AS frontend-builder
 WORKDIR /app
 
-# Copy frontend package files
+# Copy package files
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 
-# Copy frontend source
+# Copy source code (excluding backend)
 COPY src ./src
 COPY public ./public
 COPY next.config.js ./
@@ -18,44 +16,45 @@ COPY tsconfig.json ./
 COPY postcss.config.js ./
 
 # Build frontend
-ENV NEXT_PUBLIC_AI_API_URL=http://localhost:8000
+ENV NEXT_PUBLIC_AI_API_URL=$RAILWAY_PUBLIC_DOMAIN
 RUN npm run build
 
-# Stage 2: Setup Backend
-FROM python:3.11-slim AS backend-setup
-WORKDIR /app/backend
+# Production stage
+FROM python:3.11-slim
 
-# Install Python dependencies
-COPY backend/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy backend source
-COPY backend/ ./
-
-# Stage 3: Final Runtime
-FROM python:3.11-slim AS runtime
 WORKDIR /app
 
-# Install Node.js for serving frontend
-RUN apt-get update && apt-get install -y nodejs npm && rm -rf /var/lib/apt/lists/*
+# Install Node.js
+RUN apt-get update && apt-get install -y \
+    nodejs \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy built frontend
-COPY --from=frontend-builder /app/.next ./.next
-COPY --from=frontend-builder /app/public ./public
-COPY --from=frontend-builder /app/package*.json ./
-COPY --from=frontend-builder /app/node_modules ./node_modules
+# Copy frontend build
+COPY --from=frontend /app/.next ./.next
+COPY --from=frontend /app/public ./public
+COPY --from=frontend /app/package*.json ./
 
-# Copy backend
-COPY --from=backend-setup /app/backend ./backend
-COPY --from=backend-setup /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-COPY --from=backend-setup /usr/local/bin /usr/local/bin
+# Install frontend production dependencies
+RUN npm ci --only=production
 
-# Copy startup script
-COPY start-production.sh ./
-RUN chmod +x start-production.sh
+# Install Python dependencies
+COPY backend/requirements.txt ./backend/
+RUN pip install --no-cache-dir -r backend/requirements.txt
 
-# Expose ports
-EXPOSE 3000 8000
+# Copy backend source
+COPY backend/ ./backend/
+
+# Copy Next.js config for runtime
+COPY next.config.js ./
+
+# Create startup script
+RUN echo '#!/bin/bash\n\
+cd /app/backend && python -m uvicorn main:app --host 0.0.0.0 --port 8000 &\n\
+cd /app && npm start -- --port $PORT' > /app/start.sh && chmod +x /app/start.sh
+
+# Expose port (Railway will set PORT env var)
+EXPOSE $PORT
 
 # Start both services
-CMD ["./start-production.sh"] 
+CMD ["/app/start.sh"] 
