@@ -3,7 +3,7 @@
  * Connects frontend with the intelligent ML backend
  */
 
-const AI_BASE_URL = process.env.NEXT_PUBLIC_AI_API_URL || 'http://localhost:8001';
+const AI_BASE_URL = process.env.NEXT_PUBLIC_AI_API_URL || 'http://localhost:8000';
 
 // Types for AI API responses
 export interface ServiceRecommendation {
