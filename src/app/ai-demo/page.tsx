@@ -330,8 +330,8 @@ export default function AIDemoPage() {
 
             <motion.h1 
               className="text-6xl md:text-7xl font-black mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-purple-600 to-blue-600 dark:from-white dark:via-purple-400 dark:to-blue-400">
@@ -365,7 +365,7 @@ export default function AIDemoPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button
+          <Button
                   onClick={demoActive ? stopDemo : startDemo}
                   className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white px-8 py-4 text-lg font-bold shadow-2xl relative overflow-hidden"
                   size="lg"
@@ -390,10 +390,10 @@ export default function AIDemoPage() {
                     {demoActive ? 'Stop AI Demo' : 'Start AI Demo'}
                     <Rocket className="h-6 w-6" />
                   </div>
-                </Button>
+          </Button>
               </motion.div>
             </motion.div>
-          </motion.div>
+        </motion.div>
 
           {/* AI Statistics Dashboard */}
           <motion.div
@@ -503,7 +503,7 @@ export default function AIDemoPage() {
                     <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                       <Network className="h-6 w-6 text-blue-600" />
                       Neural Network Activity
-                    </h3>
+              </h3>
                     <div className="space-y-3">
                       {neurons.map((layer, idx) => (
                         <div key={layer.name} className="flex items-center gap-4">
@@ -528,8 +528,8 @@ export default function AIDemoPage() {
                         </div>
                       ))}
                     </div>
-                  </div>
-                </Card>
+              </div>
+            </Card>
 
                 {/* AI Scenarios Showcase */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
