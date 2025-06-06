@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: hyphomz-ai-backend
+    env: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "./start.sh"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: ALLOWED_ORIGINS
+        value: "https://hyphomz-ai-platform-2fc5bhaxl-aadarsh2021s-projects.vercel.app,http://localhost:3000"
+      - key: PORT
+        value: 10000 

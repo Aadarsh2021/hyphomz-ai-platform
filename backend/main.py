@@ -25,7 +25,10 @@ app.add_middleware(
         "http://localhost:3000", 
         "http://127.0.0.1:3000",
         "https://*.railway.app",
-        "*"  # Allow all origins for Railway deployment
+        "https://*.vercel.app",
+        "https://*.onrender.com",
+        "https://hyphomz-ai-platform-2fc5bhaxl-aadarsh2021s-projects.vercel.app",
+        "*"  # Allow all origins for cloud deployment
     ],
     allow_credentials=True,
     allow_methods=["*"],
