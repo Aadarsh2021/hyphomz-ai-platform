@@ -404,7 +404,7 @@ const BookingSummaryModal: React.FC<BookingSummaryModalProps> = ({
                     />
                   )}
                 </div>
-                {index < stepTitles.length - 1 && (
+                {index + 1 === currentStep && (
                   <div className="w-16 h-1 mx-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                     <motion.div 
                       className="h-full bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full"
@@ -487,77 +487,311 @@ const BookingSummaryModal: React.FC<BookingSummaryModalProps> = ({
                   </Card>
                 </motion.div>
 
-                {/* Enhanced Urgent Service Toggle */}
+
+
+                {/* Service Enhancement Options */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className={`relative overflow-hidden rounded-2xl border-2 transition-all duration-300 ${
-                    urgentService 
-                      ? 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-amber-300 dark:border-amber-700' 
-                      : 'bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700'
-                  }`}
+                  className="space-y-4"
                 >
-                  <div className="flex items-center justify-between p-6">
-                    <div className="flex items-center space-x-4">
-                      <motion.div 
-                        className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                          urgentService 
-                            ? 'bg-gradient-to-r from-amber-500 to-orange-500 shadow-lg' 
-                            : 'bg-gray-300 dark:bg-gray-600'
-                        }`}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Zap className={`w-6 h-6 ${urgentService ? 'text-white' : 'text-gray-500'}`} />
-                      </motion.div>
-                      <div>
-                        <div className={`font-bold text-lg transition-colors ${
-                          urgentService ? 'text-amber-800 dark:text-amber-200' : 'text-gray-700 dark:text-gray-300'
-                        }`}>
-                          Urgent Service
-                        </div>
-                        <div className={`text-sm transition-colors ${
-                          urgentService ? 'text-amber-600 dark:text-amber-300' : 'text-gray-500 dark:text-gray-400'
-                        }`}>
-                          Priority scheduling within 2 hours (+₹500)
-                        </div>
-                        {urgentService && (
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="flex items-center gap-1 mt-2"
+                  <div className="flex items-center gap-2 mb-4">
+                    <Sparkles className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      Service Enhancements
+                    </h3>
+                    <div className="flex-1 h-px bg-gradient-to-r from-indigo-200 to-transparent dark:from-indigo-800"></div>
+                  </div>
+
+                  {/* Enhanced Urgent Service Toggle */}
+                  <Card 
+                    variant={urgentService ? "gradient" : "outline"}
+                    className={`relative overflow-hidden transition-all duration-500 border-2 ${
+                      urgentService 
+                        ? 'border-amber-300 dark:border-amber-700 shadow-2xl shadow-amber-500/20 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20' 
+                        : 'border-gray-200 dark:border-gray-700 hover:border-amber-300/50 dark:hover:border-amber-600/50'
+                    }`}
+                  >
+                    {/* Background Animated Elements */}
+                    {urgentService && (
+                      <>
+                        <motion.div
+                          animate={{
+                            rotate: [0, 360],
+                            scale: [1, 1.1, 1],
+                          }}
+                          transition={{
+                            duration: 15,
+                            repeat: Infinity,
+                            ease: "linear"
+                          }}
+                          className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-amber-200/10 to-orange-200/10 rounded-full blur-3xl"
+                        />
+                        <motion.div
+                          animate={{
+                            rotate: [360, 0],
+                            scale: [1, 1.2, 1],
+                          }}
+                          transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: "linear"
+                          }}
+                          className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-tr from-orange-200/10 to-yellow-200/10 rounded-full blur-2xl"
+                        />
+                      </>
+                    )}
+
+                    {/* Premium Badges */}
+                    {urgentService && (
+                      <>
+                        <div className="absolute top-4 right-4 z-10">
+                          <motion.div 
+                            initial={{ scale: 0, rotate: -180 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg"
                           >
-                            <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span className="text-xs text-green-600 dark:text-green-400 font-medium">
-                              Fast-track activated
-                            </span>
+                            <Star className="h-3 w-3" />
+                            Priority
                           </motion.div>
-                        )}
+                        </div>
+                        
+                        <div className="absolute top-4 left-4 z-10">
+                          <motion.div 
+                            initial={{ scale: 0, rotate: 180 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ delay: 0.1, duration: 0.5 }}
+                            className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg"
+                          >
+                            <Zap className="h-3 w-3" />
+                            Fast-Track
+                          </motion.div>
+                        </div>
+                      </>
+                    )}
+
+                    {/* Main Content */}
+                    <div className="relative z-20 flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        {/* Enhanced Icon */}
+                        <motion.div 
+                          className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-2xl relative overflow-hidden transition-all duration-500 ${
+                            urgentService 
+                              ? 'bg-gradient-to-br from-amber-500 to-orange-500' 
+                              : 'bg-gradient-to-br from-gray-400 to-gray-500'
+                          }`}
+                          whileHover={{ scale: 1.05, rotate: [0, -5, 5, 0] }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          {urgentService && (
+                            <div className="absolute inset-0 bg-white/20 rounded-2xl animate-pulse" />
+                          )}
+                          <Zap className={`w-8 h-8 relative z-10 transition-colors duration-300 ${
+                            urgentService ? 'text-white drop-shadow-lg' : 'text-white'
+                          }`} />
+                          
+                          {/* Sparkle effects for active state */}
+                          {urgentService && (
+                            <>
+                              <motion.div
+                                animate={{
+                                  scale: [1, 1.2, 1],
+                                  opacity: [0.5, 1, 0.5],
+                                }}
+                                transition={{
+                                  duration: 2,
+                                  repeat: Infinity,
+                                  ease: "easeInOut"
+                                }}
+                                className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-2xl"
+                              />
+                              <motion.div
+                                animate={{
+                                  y: [-3, -8, -3],
+                                  x: [0, 3, 0],
+                                  opacity: [0, 1, 0],
+                                }}
+                                transition={{
+                                  duration: 2,
+                                  repeat: Infinity,
+                                  delay: 0.5,
+                                }}
+                                className="absolute -top-1 -right-1"
+                              >
+                                <Sparkles className="h-3 w-3 text-yellow-300" />
+                              </motion.div>
+                            </>
+                          )}
+                        </motion.div>
+
+                        {/* Content */}
+                        <div>
+                          <motion.h4 
+                            className={`text-xl font-bold mb-1 transition-all duration-300 ${
+                              urgentService 
+                                ? 'bg-clip-text text-transparent bg-gradient-to-r from-amber-700 via-orange-600 to-red-600 dark:from-amber-300 dark:via-orange-400 dark:to-red-400' 
+                                : 'text-gray-700 dark:text-gray-300'
+                            }`}
+                            whileHover={{ scale: 1.02 }}
+                          >
+                            Urgent Service
+                          </motion.h4>
+                          <div className={`text-sm mb-2 transition-colors duration-300 ${
+                            urgentService 
+                              ? 'text-amber-600 dark:text-amber-300' 
+                              : 'text-gray-500 dark:text-gray-400'
+                          }`}>
+                            Priority scheduling within 2 hours
+                          </div>
+                          
+                          {/* Enhanced Features */}
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {urgentService ? (
+                              <>
+                                <motion.div
+                                  initial={{ scale: 0, opacity: 0 }}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  className="flex items-center gap-1 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 px-2 py-1 rounded-full text-xs font-medium"
+                                >
+                                  <Shield className="h-3 w-3" />
+                                  Guaranteed 2hr arrival
+                                </motion.div>
+                                <motion.div
+                                  initial={{ scale: 0, opacity: 0 }}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  transition={{ delay: 0.1 }}
+                                  className="flex items-center gap-1 bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-full text-xs font-medium"
+                                >
+                                  <Star className="h-3 w-3" />
+                                  Expert technician
+                                </motion.div>
+                              </>
+                            ) : (
+                              <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full text-xs">
+                                Standard scheduling
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Price Display */}
+                          <div className={`flex items-center gap-2 transition-all duration-300 ${
+                            urgentService ? 'scale-105' : ''
+                          }`}>
+                            <span className={`text-lg font-bold transition-colors duration-300 ${
+                              urgentService 
+                                ? 'text-amber-600 dark:text-amber-400' 
+                                : 'text-gray-600 dark:text-gray-400'
+                            }`}>
+                              {urgentService ? '+₹500' : 'Free'}
+                            </span>
+                            {urgentService && (
+                              <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-2 py-1 rounded-full text-xs font-medium"
+                              >
+                                Worth it!
+                              </motion.div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Enhanced Toggle Switch */}
+                      <div className="flex flex-col items-end gap-2">
+                        <motion.button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('Toggle clicked - Current state:', urgentService);
+                            setUrgentService(prev => {
+                              const newState = !prev;
+                              console.log('Setting urgentService to:', newState);
+                              return newState;
+                            });
+                          }}
+                          className={`relative inline-flex h-10 w-20 items-center rounded-full transition-all duration-500 focus:outline-none focus:ring-4 shadow-lg ${
+                            urgentService 
+                              ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 shadow-amber-500/30 focus:ring-amber-500/30' 
+                              : 'bg-gradient-to-r from-gray-400 to-gray-500 shadow-gray-500/20 focus:ring-gray-500/20'
+                          }`}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          type="button"
+                          role="switch"
+                          aria-checked={urgentService}
+                          aria-label={`${urgentService ? 'Deactivate' : 'Activate'} urgent service`}
+                        >
+                          <motion.span 
+                            className={`inline-block h-8 w-8 transform rounded-full shadow-lg transition-all duration-500 ${
+                              urgentService 
+                                ? 'bg-white shadow-amber-500/50' 
+                                : 'bg-white shadow-gray-500/30'
+                            }`}
+                            animate={{ 
+                              x: urgentService ? 44 : 4,
+                              rotate: urgentService ? 360 : 0 
+                            }}
+                            transition={{ 
+                              type: "spring", 
+                              stiffness: 500, 
+                              damping: 30,
+                              duration: 0.5 
+                            }}
+                          >
+                            {urgentService && (
+                              <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="w-full h-full rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center"
+                              >
+                                <Zap className="h-4 w-4 text-white" />
+                              </motion.div>
+                            )}
+                          </motion.span>
+                          
+                          {/* Glowing effect for active state */}
+                          {urgentService && (
+                            <motion.div
+                              animate={{ opacity: [0.5, 1, 0.5] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                              className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-400/20 to-orange-400/20"
+                            />
+                          )}
+                        </motion.button>
+
+                        {/* Status Text */}
+                        <motion.div
+                          animate={{ scale: urgentService ? 1.05 : 1 }}
+                          className={`text-xs font-medium transition-colors duration-300 ${
+                            urgentService 
+                              ? 'text-amber-600 dark:text-amber-400' 
+                              : 'text-gray-500 dark:text-gray-400'
+                          }`}
+                        >
+                          {urgentService ? 'ACTIVE' : 'OFF'}
+                        </motion.div>
                       </div>
                     </div>
-                    <motion.button
-                      onClick={() => setUrgentService(!urgentService)}
-                      className={`relative inline-flex h-8 w-14 items-center rounded-full transition-all duration-300 ${
-                        urgentService ? 'bg-gradient-to-r from-amber-500 to-orange-500 shadow-lg' : 'bg-gray-300 dark:bg-gray-600'
-                      }`}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <motion.span 
-                        className="inline-block h-6 w-6 transform rounded-full bg-white shadow-sm transition-transform"
-                        animate={{ x: urgentService ? 28 : 4 }}
-                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                      />
-                    </motion.button>
-                  </div>
-                  {urgentService && (
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-amber-400/10 to-orange-400/10"
-                      animate={{ opacity: [0.3, 0.6, 0.3] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  )}
+
+                    {/* Bottom Enhancement Bar */}
+                    {urgentService && (
+                      <motion.div
+                        initial={{ scaleX: 0, opacity: 0 }}
+                        animate={{ scaleX: 1, opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500"
+                      >
+                        <motion.div
+                          animate={{ x: ['-100%', '100%'] }}
+                          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                          className="h-full w-1/3 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                        />
+                      </motion.div>
+                                         )}
+                   </Card>
                 </motion.div>
 
                 {/* Enhanced Date Selection */}
